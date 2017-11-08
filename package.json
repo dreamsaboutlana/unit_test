@@ -1,0 +1,19 @@
+{
+  "name": "unit_test",
+  "version": "1.0.0",
+  "description": "tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreamsaboutlana/unit_test.git"
+  },
+  "author": "Svitlana Golovko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dreamsaboutlana/unit_test/issues"
+  },
+  "homepage": "https://github.com/dreamsaboutlana/unit_test#readme"
+}
