@@ -5,7 +5,7 @@ module.exports = function (config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: '../',
 
 
     // frameworks to use
@@ -15,7 +15,7 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'src/**/*.js'
+      'src/**/*spec.js'
     ],
 
 
@@ -33,7 +33,7 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['mocha', 'progress'],
 
 
     // web server port
@@ -55,7 +55,7 @@ module.exports = function (config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: ['PhantomJS', 'Chrome'],
 
 
     // Continuous Integration mode
@@ -66,9 +66,12 @@ module.exports = function (config) {
     // how many browser should be started simultaneous
     concurrency: Infinity,
     plugins: [
+      'karma-mocha-reporter',
       'karma-mocha',
       'karma-phantomjs-launcher',
-      'karma-webpack'
-    ]
+      'karma-webpack',
+      'karma-chrome-launcher'
+    ],
+    webpack: require('./webpack.config.test')
   })
 }
