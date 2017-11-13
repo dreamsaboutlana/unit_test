@@ -3,39 +3,86 @@ import sinon from 'sinon';
 
 const {expect} = chai;
 
-import {getUsers} from "./users";
+import {getUsers} from './users';
 
 describe('users', () => {
-  const fakeData = {
-    json() {
-      Promise.resolve()
-    }
-  };
-  const fakeFetch = () => Promise.resolve(fakeData);
-  const callStub = () => stub.returns(fakeFetch());
-
   let stub;
+  const callStub = (data,isError) => {
+    if (isError){
+      return stub.returns(Promise.reject(data));
+    }
+    const fakeFetch = () => Promise.resolve({
+      json() {
+        return Promise.resolve(data);
+      }
+    });
+
+    return stub.returns(fakeFetch());
+  };
 
   beforeEach(() => {
     stub = sinon.stub(window, 'fetch');
-    callStub();
   });
 
   afterEach(() => {
     window.fetch.restore();
   });
 
-  it('should call fetch() method', () => {
+  xit('should call fetch() method', () => {
+    callStub();
     getUsers();
     expect(stub.called).to.be.true;
   });
 
-  it('should call console.log() on success response', (done) => {
+  xit('getUsers should call console.log() on success', (done) => {
     const consoleStub = sinon.stub(console, 'log');
+
+    callStub();
+
     getUsers().then(() => {
       expect(consoleStub.called).to.be.true;
       done();
       consoleStub.restore();
     });
   });
+
+  xit('getUsers should call console.log() with arguments', (done) => {
+    const consoleStub = sinon.stub(console, 'log');
+    const testString = 'test';
+
+    callStub(testString);
+
+    getUsers().then(() => {
+      expect(consoleStub.getCall(0).args[0]).to.equal(testString);
+      done();
+      consoleStub.restore();
+    });
+  });
+
+
+  xit('getUsers should call console.error() on success', (done) => {
+    const consoleStub = sinon.stub(console, 'error');
+
+    callStub(null,true);
+
+    getUsers().then(() => {
+      expect(consoleStub.called).to.be.true;
+      done();
+      consoleStub.restore();
+    });
+  });
+
+  xit('getUsers should call console.error() with arguments', (done) => {
+    const consoleStub = sinon.stub(console, 'error');
+    const testError = 'error';
+
+    callStub(testError,true);
+
+    getUsers().then(() => {
+      expect(consoleStub.getCall(0).args[0]).to.equal(testError);
+      done();
+      consoleStub.restore();
+    });
+  });
+
 });
